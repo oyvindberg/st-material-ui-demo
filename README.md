@@ -11,6 +11,10 @@ This is accomplished by using these Scala.js wrappers:
 
 Note that `st-material-ui` is also available for [slinky](https://slinky.dev/).
 
+## I just want to see it 
+You can see this deployed at [https://oyvindberg.github.io/st-material-ui-demo/](https://oyvindberg.github.io/st-material-ui-demo/)
+
+The source code is [here](https://github.com/oyvindberg/st-material-ui-demo/blob/main/src/main/scala/demo/Main.scala)
 
 ## Install
 
