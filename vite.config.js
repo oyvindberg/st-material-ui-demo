@@ -29,7 +29,9 @@ const replacementForPublic = isDev()
   ? printSbtTask("publicDev")
   : printSbtTask("publicProd");
 
+console.warn(`isDev: ${isDev()}`)
 export default defineConfig({
+  base: isDev() ? undefined : "",
   resolve: {
     alias: [
       {
