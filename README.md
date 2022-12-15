@@ -1,12 +1,16 @@
-# Scala.js with sbt, Vite, Laminar and Chart.js
+# Material-ui 5 for Scala demo
 
-This is an example of putting together:
+This demonstrates using 
+[Scala.js](https://www.scala-js.org/) 
+with [React](https://reactjs.org/) 
+and [Material-ui](https://mui.com).
 
-* [Scala.js](https://www.scala-js.org/)
-* [sbt](https://www.scala-sbt.org/)
-* [Vite](https://vitejs.dev/)
-* [Laminar](https://laminar.dev/)
-* [Chart.js](https://www.chartjs.org/), statically typed with [ScalablyTyped](https://scalablytyped.org/)
+This is accomplished by using these Scala.js wrappers: 
+- [scalajs-react](https://github.com/japgolly/scalajs-react) for React
+- [st-material-ui](https://github.com/oyvindberg/st-material-ui) for Material-ui 
+
+Note that `st-material-ui` is also available for [slinky](https://slinky.dev/).
+
 
 ## Install
 
