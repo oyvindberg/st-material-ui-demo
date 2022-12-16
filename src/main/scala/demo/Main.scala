@@ -1,12 +1,13 @@
 package demo
 
 import com.olvind.mui.StyledComponent
+import com.olvind.mui.muiIconsMaterial.components as muiIcons
 import com.olvind.mui.muiMaterial.colorsMod.{deepOrange, deepPurple}
 import com.olvind.mui.muiMaterial.components as mui
-import com.olvind.mui.muiIconsMaterial.components as muiIcons
 import com.olvind.mui.muiMaterial.stylesCreateThemeMod.Theme
 import com.olvind.mui.muiStyledEngine.mod.CSSObject
 import com.olvind.mui.muiSystem.styleFunctionSxStyleFunctionSxMod.SystemCssProperties
+import com.olvind.mui.react.components.div
 import japgolly.scalajs.react.ScalaFnComponent
 import japgolly.scalajs.react.vdom.html_<^.*
 import org.scalajs.dom
@@ -29,6 +30,7 @@ val Avatars = ScalaFnComponent[Unit] { case () =>
     })("N"),
     mui.Avatar.sx(new SystemCssProperties {
       bgcolor = deepPurple.`500`
+      this.colorRendering = "optimizeQuality"
     })("OP")
   )
 }
@@ -95,13 +97,13 @@ val Menu = ScalaFnComponent[Unit] { case () =>
 
 val Item: StyledComponent[mui.Paper.Builder] = {
   mui.Paper.styled
-    .fromInput(in =>
+    .fn((theme, in) =>
       new CSSObject {
-        backgroundColor = if (in.theme.palette.mode == "dark") "#1A2027" else "#fff"
-        padding = in.theme.spacing(1)
+        backgroundColor = if (theme.palette.mode == "dark") "#1A2027" else "#fff"
+        padding = theme.spacing(1)
         textAlign = "center"
-        color = in.theme.palette_BaseTheme.text.secondary
-      }.combineWith(in.theme.typography_BaseTheme.body2)
+        color = theme.palette_BaseTheme.text.secondary
+      }.combineWith(theme.typography_BaseTheme.body2)
     )
     .build()
 }
