@@ -105,6 +105,7 @@ val Main = ScalaFnComponent[Unit] { case () =>
     Menu(),
     Grid.FullWidthGrid(),
     Tabs.BasicTabs(),
+    Dialog.SimpleDialogDemo()
   )
 }
 
