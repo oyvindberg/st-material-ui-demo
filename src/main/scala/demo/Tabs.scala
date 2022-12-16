@@ -14,6 +14,7 @@ import japgolly.scalajs.react.hooks.Hooks.UseStateWithReuse
 import org.scalajs.dom.{Element, HTMLDivElement}
 import japgolly.scalajs.react.vdom.VdomNode
 import japgolly.scalajs.react.vdom.all.TagMod
+import japgolly.scalajs.react.vdom.html_<^.*
 
 import scala.scalajs.js
 
@@ -53,14 +54,14 @@ object Tabs {
             .value(value.value)
             .onChange(handleChange)
             .`aria-label`("basic tabs example")(
-              mui.Tab.normal.label(VdomNode("Item One")).unsafeSpread(a11yProps(0)),
-              mui.Tab.normal.label(VdomNode("Item Two")).unsafeSpread(a11yProps(1)),
-              mui.Tab.normal.label(VdomNode("Item Three")).unsafeSpread(a11yProps(2))
+              mui.Tab.normal.label("Item One").unsafeSpread(a11yProps(0)),
+              mui.Tab.normal.label("Item Two").unsafeSpread(a11yProps(1)),
+              mui.Tab.normal.label("Item Three").unsafeSpread(a11yProps(2))
             )
         ),
-        TabPanel(TabPanelProps(index = 0, value = value.value))(VdomNode("Item One")),
-        TabPanel(TabPanelProps(index = 1, value = value.value))(VdomNode("Item Two")),
-        TabPanel(TabPanelProps(index = 2, value = value.value))(VdomNode("Item Three"))
+        TabPanel(TabPanelProps(index = 0, value = value.value))("Item One"),
+        TabPanel(TabPanelProps(index = 1, value = value.value))("Item Two"),
+        TabPanel(TabPanelProps(index = 2, value = value.value))("Item Three")
       )
     }
 }

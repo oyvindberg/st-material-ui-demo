@@ -95,33 +95,6 @@ val Menu = ScalaFnComponent[Unit] { case () =>
   )
 }
 
-val Item: StyledComponent[mui.Paper.Builder] = {
-  mui.Paper.styled
-    .fn((theme, in) =>
-      new CSSObject {
-        backgroundColor = if (theme.palette.mode == "dark") "#1A2027" else "#fff"
-        padding = theme.spacing(1)
-        textAlign = "center"
-        color = theme.palette_BaseTheme.text.secondary
-      }.combineWith(theme.typography_BaseTheme.body2)
-    )
-    .build()
-}
-
-val FullWidthGrid = ScalaFnComponent[Unit] { case () =>
-  mui.Box.sx(new SystemCssProperties[Theme] {
-    flexGrow = 1.0
-  })
-  mui.Grid2
-    .container(true)
-    .spacing(2.0)(
-      mui.Grid2.xs(6).md(8)(Item("xs=6 md=8")),
-      mui.Grid2.xs(6).md(4)(Item("xs=6 md=4")),
-      mui.Grid2.xs(6).md(4)(Item("xs=6 md=4")),
-      mui.Grid2.xs(6).md(8)(Item("xs=6 md=8"))
-    )
-}
-
 val Main = ScalaFnComponent[Unit] { case () =>
   <.div(
     Chips(),
@@ -130,8 +103,8 @@ val Main = ScalaFnComponent[Unit] { case () =>
     Progress(),
     Links(),
     Menu(),
-    FullWidthGrid(),
-    Tabs.BasicTabs()
+    Grid.FullWidthGrid(),
+    Tabs.BasicTabs(),
   )
 }
 
