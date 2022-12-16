@@ -17,7 +17,7 @@ lazy val `st-material-ui-demo` = project
         )
     },
     libraryDependencies ++= Seq(
-      "com.olvind.st-material-ui" %%% "st-material-ui-icons-scalajs-react" % "0.1"
+      "com.olvind.st-material-ui" %%% "st-material-ui-icons-scalajs-react" % "0.1-SNAPSHOT"
     ),
     publicDev := linkerOutputDirectory((Compile / fastLinkJS).value)
       .getAbsolutePath(),
