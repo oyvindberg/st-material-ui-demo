@@ -130,7 +130,8 @@ val Main = ScalaFnComponent[Unit] { case () =>
     Progress(),
     Links(),
     Menu(),
-    FullWidthGrid()
+    FullWidthGrid(),
+    Tabs.BasicTabs()
   )
 }
 
