@@ -19,12 +19,6 @@ import japgolly.scalajs.react.vdom.html_<^.*
 import scala.scalajs.js
 
 object Tabs {
-  extension [R <: js.Object](x: StBuildingComponent[R])
-    def apply(children: japgolly.scalajs.react.PropsChildren) = {
-      x.args.push(children.raw)
-      x
-    }
-
   case class TabPanelProps(index: Int, value: Int)
 
   val TabPanel = ScalaFnComponent.withChildren[TabPanelProps] { case (TabPanelProps(index, value), children) =>
