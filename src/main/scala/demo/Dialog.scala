@@ -10,7 +10,7 @@ import com.olvind.mui.muiStyledEngine.mod.CSSObject
 import com.olvind.mui.muiSystem.styleFunctionSxStyleFunctionSxMod.SystemCssProperties
 import com.olvind.mui.react.components.{br, div}
 import japgolly.scalajs.react.hooks.Hooks.{UseState, UseStateWithReuse}
-import japgolly.scalajs.react.vdom.html_<^.*
+import japgolly.scalajs.react.vdom.Implicits.*
 import japgolly.scalajs.react.{Callback, ScalaFnComponent}
 
 object Dialog {
@@ -67,7 +67,7 @@ object Dialog {
       div(
         mui.Typography.variant("subtitle1").component("div")(s"Selected: ${selectedValue.value}"),
         br(),
-        mui.Button.DefaultComponentPropsExtendButtonBaseTypAccessKey
+        mui.Button.normal
           .variant("outlined")
           .onClick(_ => handleClickOpen)(
             "Open simple dialog"

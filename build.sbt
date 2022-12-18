@@ -16,8 +16,12 @@ lazy val `st-material-ui-demo` = project
           ModuleSplitStyle.SmallModulesFor(List("st-material-ui-demo"))
         )
     },
+    resolvers += MavenRepository(
+      "sonatype-snapshots",
+      "https://oss.sonatype.org/content/repositories/snapshots"
+    ),
     libraryDependencies ++= Seq(
-      "com.olvind.st-material-ui" %%% "st-material-ui-icons-scalajs-react" % "0.0.0+19-2725dd03-SNAPSHOT"
+      "com.olvind.st-material-ui" %%% "st-material-ui-icons-scalajs-react" % "0.0.0+1-2f92bb2a-SNAPSHOT"
     ),
     publicDev := linkerOutputDirectory((Compile / fastLinkJS).value)
       .getAbsolutePath(),

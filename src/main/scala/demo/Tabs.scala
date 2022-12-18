@@ -14,7 +14,7 @@ import japgolly.scalajs.react.hooks.Hooks.UseStateWithReuse
 import org.scalajs.dom.{Element, HTMLDivElement}
 import japgolly.scalajs.react.vdom.VdomNode
 import japgolly.scalajs.react.vdom.all.TagMod
-import japgolly.scalajs.react.vdom.html_<^.*
+import japgolly.scalajs.react.vdom.Implicits.*
 
 import scala.scalajs.js
 

@@ -8,7 +8,7 @@ import japgolly.scalajs.react.ScalaFnComponent
 import com.olvind.mui.muiIconsMaterial.components as muiIcons
 import com.olvind.mui.muiMaterial.colorsMod.{deepOrange, deepPurple}
 import com.olvind.mui.muiMaterial.components as mui
-import japgolly.scalajs.react.vdom.html_<^.*
+import japgolly.scalajs.react.vdom.Implicits.*
 
 object Grid {
 
