@@ -126,24 +126,26 @@ val Item = div.styled
   .build()
 
 val Main = ScalaFnComponent[Unit] { case () =>
-  div(
-    mui.Typography.variant("h1")("Material-UI 5 for Scala 3"),
-    mui.Container.maxWidth("md")(
-      mui.Stack
-        .spacing(4.0)(
-          Item(mui.Typography.variant("h2")("Autocomplete"), AutoComplete.Asynchronous()),
-          Item(mui.Typography.variant("h2")("Avatars"), Avatars()),
-          Item(mui.Typography.variant("h2")("Buttons"), Buttons()),
-          Item(mui.Typography.variant("h2")("Chips"), Chips()),
-          Item(mui.Typography.variant("h2")("Dialog"), Dialog.SimpleDialogDemo()),
-          Item(mui.Typography.variant("h2")("Grid"), Grid.FullWidthGrid()),
-          Item(mui.Typography.variant("h2")("Links"), Links()),
-          Item(mui.Typography.variant("h2")("Menu"), Menu()),
-          Item(mui.Typography.variant("h2")("Progress"), Progress()),
-          Item(mui.Typography.variant("h2")("Tabs"), Tabs.BasicTabs()),
-          Item(mui.Typography.variant("h2")("TextFields"), TextFields()),
-          Item(mui.Typography.variant("h2")("Tooltips"), Tooltips())
-        )
+  MiniDrawer(
+    div(
+      mui.Typography.variant("h1")("Material-UI 5 for Scala 3"),
+      mui.Container.maxWidth("md")(
+        mui.Stack
+          .spacing(4.0)(
+            Item(mui.Typography.variant("h2")("Autocomplete"), AutoComplete.Asynchronous()),
+            Item(mui.Typography.variant("h2")("Avatars"), Avatars()),
+            Item(mui.Typography.variant("h2")("Buttons"), Buttons()),
+            Item(mui.Typography.variant("h2")("Chips"), Chips()),
+            Item(mui.Typography.variant("h2")("Dialog"), Dialog.SimpleDialogDemo()),
+            Item(mui.Typography.variant("h2")("Grid"), Grid.FullWidthGrid()),
+            Item(mui.Typography.variant("h2")("Links"), Links()),
+            Item(mui.Typography.variant("h2")("Menu"), Menu()),
+            Item(mui.Typography.variant("h2")("Progress"), Progress()),
+            Item(mui.Typography.variant("h2")("Tabs"), Tabs.BasicTabs()),
+            Item(mui.Typography.variant("h2")("TextFields"), TextFields()),
+            Item(mui.Typography.variant("h2")("Tooltips"), Tooltips())
+          )
+      )
     )
   )
 }

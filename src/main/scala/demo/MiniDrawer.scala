@@ -116,8 +116,9 @@ val Drawer: StyledComponent[mui.Drawer.Builder] =
 /** Port of https://mui.com/material-ui/react-drawer/#mini-variant-drawer */
 val MiniDrawer = ScalaFnComponent
   .withHooks[Unit]
+  .withPropsChildren
   .useState(true)
-  .render { (_, openS: UseState[Boolean]) =>
+  .render { (_, children, openS: UseState[Boolean]) =>
     val theme = stylesUseThemeMod.default[Theme]()
     val open: Boolean = openS.value
     def handleDrawerOpen(@unused any: Any): Callback = openS.setState(true)
@@ -230,7 +231,8 @@ val MiniDrawer = ScalaFnComponent
               |consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
               |sapien faucibus et molestie ac.
               |""".stripMargin
-          )
+          ),
+          children
         )
     )
   }
