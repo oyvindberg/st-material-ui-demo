@@ -4,7 +4,10 @@ import com.olvind.mui.StyledComponent
 import com.olvind.mui.muiIconsMaterial.components as muiIcon
 import com.olvind.mui.muiMaterial.anon.Partial
 import com.olvind.mui.muiMaterial.components as mui
+import com.olvind.mui.muiMaterial.components.Drawer
+import com.olvind.mui.muiMaterial.drawerDrawerMod.DrawerProps
 import com.olvind.mui.muiMaterial.stylesCreateThemeMod.Theme
+import com.olvind.mui.muiMaterial.stylesUseThemeMod
 import com.olvind.mui.muiStyledEngine.mod.CSSObject
 import com.olvind.mui.muiSystem.styleFunctionSxStyleFunctionSxMod.SystemCssProperties
 import com.olvind.mui.react.components.div
@@ -45,15 +48,9 @@ private def closedMixin(theme: Theme) =
     )
     overflowX = "hidden"
     width = s"calc(${theme.spacing(7)} + 1px)"
+  }.set(theme.breakpoints.up("sm"), new js.Object { val width = s"calc(${theme.spacing(8)} + 1px" })
 
-    // todo: figure out how to apply this
-    // theme.breakpoints.up("sm")
-    //  [theme.breakpoints.up('sm')]: {
-    //  width: `calc(${theme.spacing(8)} + 1px)`,
-    // },
-  }
-
-val DrawerHeader = ScalaFnComponent.justChildren { c =>
+val DrawerHeader =
   div.styled
     .fn { (theme, _) =>
       new CSSObject {
@@ -65,12 +62,12 @@ val DrawerHeader = ScalaFnComponent.justChildren { c =>
         // necessary for content to be below app bar
         .combineWith(theme.mixins_BaseTheme.toolbar)
     }
-    .build()(c)
-}
+    .build()
 
-val AppBar = ScalaFnComponent.withChildren[Boolean] { (open, c) =>
+val AppBar =
   mui.AppBar.styled
-    .fn((theme, _) =>
+    .fn((theme, props) =>
+      val open = props.asInstanceOf[js.Dynamic].selectDynamic("open").asInstanceOf[Boolean]
       new CSSObject {
         zIndex = theme.zIndex_BaseTheme.drawer + 1
         transition = theme.transitions_BaseTheme.create(
@@ -95,35 +92,24 @@ val AppBar = ScalaFnComponent.withChildren[Boolean] { (open, c) =>
       }
     )
     .build()
-    .position("fixed")(c)
-}
 
-// todo: hack to set the css property
-trait CssDrawerPage extends CSSObject {
-  @unused
-  @JSName("& .MuiDrawer-paper")
-  var `MuiDrawer-paper`: js.UndefOr[Any | CSSObject] = js.undefined
-}
-
-val Drawer = ScalaFnComponent.withChildren[Boolean] { (open, c) =>
+val Drawer: StyledComponent[mui.Drawer.Builder] =
   mui.Drawer.styled
-    .fn((theme, _) =>
-      new CssDrawerPage {
+    .fn((theme, props) => {
+      val open = props.asInstanceOf[js.Dynamic].selectDynamic("open").asInstanceOf[Boolean]
+      new CSSObject {
         width = drawerWidth
         flexShrink = 0
         whiteSpace = "nowrap"
         boxSizing = "border-box"
-        `MuiDrawer-paper` =
+      }
+        .set("& .MuiDrawer-paper", if (open) openedMixin(theme) else closedMixin(theme))
+        .combineWith(
           if (open) openedMixin(theme)
           else closedMixin(theme)
-      }.combineWith(
-        if (open) openedMixin(theme)
-        else closedMixin(theme)
-      )
-    )
+        )
+    })
     .build()
-    .variant("permanent")(c)
-}
 
 /** Port of https://mui.com/material-ui/react-drawer/#mini-variant-drawer */
 val MiniDrawer = ScalaFnComponent
@@ -131,94 +117,101 @@ val MiniDrawer = ScalaFnComponent
   .withPropsChildren
   .useState(true)
   .render { (_, children, openS: UseState[Boolean]) =>
+    val theme = stylesUseThemeMod.default[Theme]()
     val open: Boolean = openS.value
     def handleDrawerOpen(@unused any: Any): Callback = openS.setState(true)
     def handleDrawerClose(@unused any: Any): Callback = openS.setState(false)
 
     mui.Box.sx(new Css { display = "flex" })(
       mui.CssBaseline(),
-      AppBar(open)(
-        mui.Toolbar(
-          mui.IconButton.normal
-            .color("inherit")
-            .`aria-label`("open drawer")
-            .onClick(handleDrawerOpen)
-            .edge("start")
-            .sx(new Css {
-              marginRight = 5
-              if (open) display = "none"
-            })(muiIcon.Menu()),
-          mui.Typography.variant("h6").noWrap(true).component("div")("Mini variant drawer")
-        )
-      ),
-      Drawer(open)(
-        DrawerHeader(
-          mui.IconButton.normal
-            .onClick(handleDrawerClose)(
-              muiIcon.ChevronLeft() // todo: how to get hold of the theme? {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-            )
-        ),
-        mui.Divider(),
-        mui.List()(
-          List("Inbox", "Starred", "Send mail", "Drafts").zipWithIndex.toTagMod { case (text, index) =>
-            mui.ListItem
-              .normal()
-              .withKey(s"$text")
-              .disablePadding(true)
-              .sx(new Css { display = "block" })(
-                mui.ListItemButton
-                  .normal()
-                  .sx(new Css {
-                    minHeight = 48
-                    justifyContent = if (open) "initial" else "center"
-                    px = 2.5
-                  })(
-                    mui
-                      .ListItemIcon()
-                      .sx(new Css {
-                        minHeight = 0
-                        mr = if (open) 3 else "auto"
-                        justifyContent = "center"
-                      })(if (index % 2 == 0) muiIcon.Inbox() else muiIcon.Mail()),
-                    mui.ListItemText.primary(text).sx(new Css { opacity = if (open) 1 else 0 })
-                  )
-              )
-          }
-        ),
-        mui.Divider(),
-        mui.List()(
-          List("All mail", "Trash", "Spam").zipWithIndex.toTagMod { case (text, index) =>
-            mui.ListItem
-              .normal()
-              .withKey(s"$text")
-              .disablePadding(true)
+      AppBar()
+        .position("fixed")
+        .set("open", open)(
+          mui.Toolbar(
+            mui.IconButton.normal
+              .color("inherit")
+              .`aria-label`("open drawer")
+              .onClick(handleDrawerOpen)
+              .edge("start")
               .sx(new Css {
-                display = "block"
-              })(
-                mui.ListItemButton
-                  .normal()
-                  .sx(new Css {
-                    minHeight = 48
-                    justifyContent = if (open) "initial" else "center"
-                    px = 2.5
-                  })(
-                    mui
-                      .ListItemIcon()
-                      .sx(new Css {
-                        minHeight = 0
-                        mr = if (open) 3 else "auto"
-                        justifyContent = "center"
-                      })(if (index % 2 == 0) muiIcon.Inbox() else muiIcon.Mail()),
-                    mui.ListItemText
-                      .primary(text)
-                      .sx(new Css {
-                        opacity = if (open) 1 else 0
-                      })
-                  )
+                marginRight = 5
+                if (open) display = "none"
+              })(muiIcon.Menu()),
+            mui.Typography.variant("h6").noWrap(true).component("div")("Mini variant drawer")
+          )
+        ),
+      Drawer()
+        .set("open", open)
+        .variant("permanent")(
+          DrawerHeader(
+            mui.IconButton.normal
+              .onClick(handleDrawerClose)(
+                if (theme.direction == "rtl") muiIcon.ChevronRight()
+                else muiIcon.ChevronLeft()
               )
-          }
-        )
-      ),
+          ),
+          mui.Divider(),
+          mui.List()(
+            List("Inbox", "Starred", "Send mail", "Drafts").zipWithIndex.toTagMod { case (text, index) =>
+              mui.ListItem
+                .normal()
+                .withKey(s"$text")
+                .disablePadding(true)
+                .sx(new Css { display = "block" })(
+                  mui.ListItemButton
+                    .normal()
+                    .sx(new Css {
+                      if (open) padding = 0
+                      minHeight = 48
+                        justifyContent = if (open) "initial" else "center"
+                      px = 2.5
+                    })(
+                      mui
+                        .ListItemIcon()
+                        .sx(new Css {
+                          minHeight = 0
+                          mr = if (open) 3 else "auto"
+                          justifyContent = "center"
+                        })(if (index % 2 == 0) muiIcon.Inbox() else muiIcon.Mail()),
+                      mui.ListItemText.primary(text).sx(new Css { opacity = if (open) 1 else 0 })
+                    )
+                )
+            }
+          ),
+          mui.Divider(),
+          mui.List()(
+            List("All mail", "Trash", "Spam").zipWithIndex.toTagMod { case (text, index) =>
+              mui.ListItem
+                .normal()
+                .withKey(s"$text")
+                .disablePadding(true)
+                .sx(new Css {
+                  display = "block"
+                })(
+                  mui.ListItemButton
+                    .normal()
+                    .sx(new Css {
+                      minHeight = 48
+                      justifyContent = if (open) "initial" else "center"
+                      px = 2.5
+                    })(
+                      mui
+                        .ListItemIcon()
+                        .sx(new Css {
+                          minHeight = 0
+                          mr = if (open) 3 else "auto"
+                          justifyContent = "center"
+                        })(if (index % 2 == 0) muiIcon.Inbox() else muiIcon.Mail()),
+                      mui.ListItemText
+                        .primary(text)
+                        .sx(new Css {
+                          opacity = if (open) 1 else 0
+                        })
+                    )
+                )
+            }
+          )
+        ),
       mui.Box
         .sx(new Css { flexGrow = 1; p = 3 })
         .component("main")(
