@@ -9,7 +9,7 @@ This is accomplished by using these Scala.js wrappers:
 - [scalajs-react](https://github.com/japgolly/scalajs-react) for React
 - [st-material-ui](https://github.com/oyvindberg/st-material-ui) for Material-ui 
 
-Note that `st-material-ui` is also available for [slinky](https://slinky.dev/).
+Are you using [slinky](https://slinky.dev)? Check out the [slinky demos](https://github.com/wiringbits/st-material-ui-demo-slinky).
 
 ## I just want to see it 
 You can see this deployed at [https://oyvindberg.github.io/st-material-ui-demo/](https://oyvindberg.github.io/st-material-ui-demo/)
